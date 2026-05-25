@@ -8,6 +8,18 @@ export function PlaygroundPage() {
   const [theme, setTheme] = useState("default");
   const [toolbarMode, setToolbarMode] = useState("classic");
   const [outputFormat, setOutputFormat] = useState("html");
+  const customTemplates = useMemo(
+    () => [
+      {
+        id: "release-note",
+        title: "Release note",
+        description: "Product update block supplied by the host app",
+        category: "Custom",
+        content: "<h2>Release note</h2><p><strong>What changed:</strong> Describe the improvement.</p><p><strong>Who it helps:</strong> Explain the user impact.</p>",
+      },
+    ],
+    [],
+  );
 
   const usage = useMemo(
     () => `import { NovaTextEditor } from "@novatext/react-editor";
@@ -20,6 +32,13 @@ import "@novatext/react-editor/styles.css";
   theme="${theme}"
   toolbarMode="${toolbarMode}"
   outputFormat="${outputFormat}"
+  contentTemplates={[
+    {
+      id: "release-note",
+      title: "Release note",
+      content: "<h2>Release note</h2><p>...</p>"
+    }
+  ]}
 />`,
     [outputFormat, preset, theme, toolbarMode],
   );
@@ -72,6 +91,7 @@ import "@novatext/react-editor/styles.css";
             theme={theme}
             toolbarMode={toolbarMode}
             outputFormat={outputFormat}
+            contentTemplates={customTemplates}
             placeholder="Write something useful..."
             minHeight={380}
             validation={{ maxWords: 2000, requireImageAltText: false }}

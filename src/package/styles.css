@@ -303,6 +303,32 @@ body {
   background: var(--nt-editor-muted);
 }
 
+.novatext-template-menu {
+  max-width: calc(100vw - 32px);
+}
+
+.novatext-template-item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+  width: 100%;
+}
+
+.novatext-template-item:hover,
+.novatext-template-item:focus-visible {
+  background: var(--nt-editor-muted);
+  border-color: var(--nt-editor-border);
+  outline: none;
+}
+
 .novatext-theme-dark {
   --nt-editor-background: #111827;
   --nt-editor-foreground: #f8fafc;
@@ -351,5 +377,10 @@ body {
 
   .novatext-content {
     padding: 14px;
+  }
+
+  .novatext-template-menu {
+    left: -96px;
+    width: calc(100vw - 24px);
   }
 }

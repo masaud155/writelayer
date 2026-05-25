@@ -3,6 +3,7 @@ import {
   Bold,
   Code,
   Eraser,
+  FilePlus2,
   Heading1,
   Heading2,
   Heading3,
@@ -25,11 +26,12 @@ import { ColorPicker } from "../controls/ColorPicker.jsx";
 import { ExportMenu } from "../controls/ExportMenu.jsx";
 import { ImageDialog } from "../controls/ImageDialog.jsx";
 import { LinkDialog } from "../controls/LinkDialog.jsx";
+import { SnippetMenu } from "../controls/SnippetMenu.jsx";
 import { TableControls } from "../controls/TableControls.jsx";
 import { ToolbarButton } from "./ToolbarButton.jsx";
 import { ToolbarGroup } from "./ToolbarGroup.jsx";
 
-export function Toolbar({ editor, commands, density = "normal", customItems = [], onImageUpload, outputFormat }) {
+export function Toolbar({ editor, commands, density = "normal", customItems = [], onImageUpload, outputFormat, contentTemplates = [] }) {
   if (!editor) return null;
 
   return (
@@ -63,6 +65,7 @@ export function Toolbar({ editor, commands, density = "normal", customItems = []
         <ToolbarButton icon={SeparatorHorizontal} label="Divider" onClick={commands.insertDivider} />
       </ToolbarGroup>
       <ToolbarGroup>
+        <SnippetMenu editor={editor} templates={contentTemplates} triggerIcon={FilePlus2} />
         <ImageDialog onImageUpload={onImageUpload} onInsert={commands.insertImage} triggerIcon={Image} />
         <TableControls editor={editor} triggerIcon={Table} onInsert={commands.insertTable} />
         <ToolbarButton icon={Eraser} label="Clear formatting" onClick={commands.clearFormatting} />

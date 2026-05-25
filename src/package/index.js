@@ -21,6 +21,7 @@ export { useEditorStats } from "./hooks/useEditorStats.js";
 export { useNovaEditor } from "./hooks/useNovaEditor.js";
 
 export { editorPresets } from "./presets/editorPresets.js";
+export { contentTemplates, getTemplatesForPreset } from "./presets/contentTemplates.js";
 export { themeTokens } from "./themes/themeTokens.js";
 export { themes } from "./themes/themes.js";
 export { exportContent, getOutputFromEditor } from "./utils/exportUtils.js";

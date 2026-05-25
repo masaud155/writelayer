@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { FloatingMenu } from "@tiptap/react";
-import { Code2, Heading1, Heading2, Heading3, Image, Link, List, ListOrdered, Minus, Quote, Table, Text, TriangleAlert } from "lucide-react";
+import { Code2, FilePlus2, Heading1, Heading2, Heading3, Image, Link, List, ListOrdered, Minus, Quote, Table, Text, TriangleAlert } from "lucide-react";
 
-export function SlashCommandMenu({ editor, commands, customCommands = [] }) {
+export function SlashCommandMenu({ editor, commands, customCommands = [], contentTemplates = [] }) {
   const [query, setQuery] = useState("");
   const items = useMemo(
     () => [
@@ -19,9 +19,20 @@ export function SlashCommandMenu({ editor, commands, customCommands = [] }) {
       { id: "table", label: "Table", description: "Comparison table", icon: Table, action: commands.insertTable },
       { id: "callout", label: "Callout", description: "Highlighted information", icon: TriangleAlert, action: () => commands.insertCallout("info") },
       { id: "link", label: "Link", description: "Inline link placeholder", icon: Link, action: () => commands.setLink("https://example.com") },
+      ...contentTemplates.map((template) => ({
+        id: `template-${template.id}`,
+        label: template.title,
+        description: template.description || "Insert reusable content template",
+        icon: template.icon || FilePlus2,
+        action: ({ editor: activeEditor }) => {
+          const content = typeof template.content === "function" ? template.content({ editor: activeEditor }) : template.content;
+          activeEditor?.chain().focus().insertContent(content || "").run();
+          template.action?.({ editor: activeEditor });
+        },
+      })),
       ...customCommands,
     ],
-    [commands, customCommands],
+    [commands, contentTemplates, customCommands],
   );
   const filtered = items.filter((item) => item.label.toLowerCase().includes(query.toLowerCase()));
 

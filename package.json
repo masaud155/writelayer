@@ -18,9 +18,9 @@
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "build:lib": "vite build --mode lib",
+    "dev": "node init && vite --host 0.0.0.0",
+    "build": "node init && vite build",
+    "build:lib": "node init && vite build --mode lib",
     "preview": "vite preview --host 0.0.0.0"
   },
   "peerDependencies": {

@@ -18,6 +18,7 @@ NovaText Editor is a package-first React rich text editor built with Vite, JSX, 
 - Image upload callback with no hardcoded storage logic
 - Theme tokens and built-in themes
 - Simple plugin system for toolbar items, slash commands, and extensions
+- Reusable content templates and snippet insertion
 - Demo pages for playground, examples, and docs
 - Vite library mode ready for future npm publishing
 
@@ -162,9 +163,28 @@ const productPlugin = {
 <NovaTextEditor plugins={[productPlugin]} />;
 ```
 
+## Content Templates
+
+Add reusable insert blocks for your product, CMS, or support workflow. Templates appear in the toolbar template menu and can also be inserted through slash commands.
+
+```jsx
+<NovaTextEditor
+  preset="cms"
+  contentTemplates={[
+    {
+      id: "product-specs",
+      title: "Product specs",
+      description: "Reusable table for product detail pages",
+      category: "Commerce",
+      content: "<h2>Specifications</h2><table><tbody><tr><th>Attribute</th><th>Detail</th></tr></tbody></table>",
+    },
+  ]}
+/>
+```
+
 ## Props API
 
-Core props include `value`, `defaultValue`, `onChange`, `onUpdate`, `onBlur`, `onFocus`, `onSave`, `placeholder`, `readOnly`, `disabled`, `autoFocus`, `outputFormat`, `preset`, `toolbar`, `toolbarMode`, `toolbarDensity`, `bubbleToolbar`, `floatingToolbar`, `slashCommands`, `statusBar`, `minHeight`, `maxHeight`, `height`, `className`, `editorClassName`, `contentClassName`, `theme`, `themeTokens`, `extensions`, `plugins`, `customToolbarItems`, `customSlashCommands`, `onImageUpload`, `onError`, `validation`, and `onValidationChange`.
+Core props include `value`, `defaultValue`, `onChange`, `onUpdate`, `onBlur`, `onFocus`, `onSave`, `placeholder`, `readOnly`, `disabled`, `autoFocus`, `outputFormat`, `preset`, `toolbar`, `toolbarMode`, `toolbarDensity`, `bubbleToolbar`, `floatingToolbar`, `slashCommands`, `statusBar`, `minHeight`, `maxHeight`, `height`, `className`, `editorClassName`, `contentClassName`, `theme`, `themeTokens`, `extensions`, `plugins`, `customToolbarItems`, `customSlashCommands`, `contentTemplates`, `onImageUpload`, `onError`, `validation`, and `onValidationChange`.
 
 ## Development
 

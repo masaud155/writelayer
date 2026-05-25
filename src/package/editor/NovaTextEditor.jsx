@@ -12,6 +12,7 @@ import { SlashCommandMenu } from "../toolbars/SlashCommandMenu.jsx";
 import { useEditorCommands } from "../hooks/useEditorCommands.js";
 import { useEditorStats } from "../hooks/useEditorStats.js";
 import { useNovaEditor } from "../hooks/useNovaEditor.js";
+import { getTemplatesForPreset } from "../presets/contentTemplates.js";
 import { resolvePreset } from "../presets/editorPresets.js";
 import { exportContent, getOutputFromEditor } from "../utils/exportUtils.js";
 import { validateEditorContent } from "../utils/validationUtils.js";
@@ -50,6 +51,7 @@ export const NovaTextEditor = forwardRef(function NovaTextEditor(
     plugins = [],
     customToolbarItems = [],
     customSlashCommands = [],
+    contentTemplates,
     onImageUpload,
     onError,
     validation,
@@ -72,6 +74,9 @@ export const NovaTextEditor = forwardRef(function NovaTextEditor(
 
   const pluginToolbarItems = plugins.flatMap((plugin) => plugin.toolbarItems || []);
   const pluginSlashCommands = plugins.flatMap((plugin) => plugin.slashCommands || []);
+  const pluginTemplates = plugins.flatMap((plugin) => plugin.contentTemplates || []);
+  const presetTemplates = getTemplatesForPreset(preset);
+  const mergedContentTemplates = [...presetTemplates, ...pluginTemplates, ...(contentTemplates || [])];
   const mergedToolbarItems = [...pluginToolbarItems, ...customToolbarItems];
   const mergedSlashCommands = [...pluginSlashCommands, ...customSlashCommands];
 
@@ -126,6 +131,7 @@ export const NovaTextEditor = forwardRef(function NovaTextEditor(
     commands,
     density: toolbarDensity,
     customItems: mergedToolbarItems,
+    contentTemplates: mergedContentTemplates,
     onImageUpload,
     outputFormat: resolved.outputFormat,
   };
@@ -139,7 +145,7 @@ export const NovaTextEditor = forwardRef(function NovaTextEditor(
           {toolbar && resolved.toolbarMode === "floating" ? <FloatingToolbar {...toolbarProps} /> : null}
           <div className="novatext-content-wrap">
             {resolved.bubbleToolbar ? <BubbleToolbar editor={editor} commands={commands} /> : null}
-            {resolved.slashCommands ? <SlashCommandMenu editor={editor} commands={commands} customCommands={mergedSlashCommands} /> : null}
+            {resolved.slashCommands ? <SlashCommandMenu editor={editor} commands={commands} customCommands={mergedSlashCommands} contentTemplates={mergedContentTemplates} /> : null}
             <EditorContent editor={editor} className={contentClassName || editorClassName} minHeight={resolved.minHeight} maxHeight={maxHeight} height={height} />
           </div>
           {resolved.statusBar ? (
